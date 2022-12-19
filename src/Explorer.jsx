@@ -1,8 +1,8 @@
 import React from 'react';
-import { PathForm } from './PathForm'
-import { ButtonGrid } from './ButtonGrid'
+//import { PathForm } from './PathForm'
+//import { ButtonGrid } from './ButtonGrid'
 import ndarray from 'ndarray';
-import { ColorBar, HeatmapVis, getDomain } from '@h5web/lib';
+import { HeatmapVis, getDomain } from '@h5web/lib';
 import axios from 'axios';
 
 
@@ -10,11 +10,9 @@ import axios from 'axios';
 export class Explorer extends React.Component {
     constructor(props) {
         super(props)
-        const values = [[1,2,3],[4,5,6]];
-        const flatValues = values.flat(Infinity);
-        const dataArray = ndarray(flatValues, [2, 3]);
-        const domain = getDomain(dataArray);
-        this.state = {path: '', data: '', rows: 0, cols: 0, array_data: dataArray, domain:domain}
+        
+        this.state = {path: '', data: '', rows: 1, cols: 1, 
+                      array_data: props.dataArray, domain : props.domain}
         this.get_data();
      }
 
@@ -33,9 +31,6 @@ export class Explorer extends React.Component {
                 const domain = getDomain(dataArray);
                 self.setState({ ...self.state, array_data: dataArray, domain: domain})
         })
-
-            
-
         }
     
     setPath = (path, data) => {
@@ -48,11 +43,15 @@ export class Explorer extends React.Component {
      render() {
         return (
             <>
-            <PathForm setPath = {this.setPath} />
-            <p>Explorer rows: { this.state.rows } cols: { this.state.cols }</p>
-            <ButtonGrid rows = { this.state.rows } cols = {this.state.cols}/>
-            
-               
+            <div style={{ display: 'flex', height: '70vh' }}>
+            <HeatmapVis 
+                    dataArray={this.state.array_data} 
+                    domain={this.state.domain} 
+                    layout= "cover" 
+                    scaleType="log"
+                    colorMap='Viridis'/>
+          </div>
+           
             </>
             
         )
