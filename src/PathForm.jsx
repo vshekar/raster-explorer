@@ -1,4 +1,3 @@
-import { MContext } from './Context';
 import React from 'react';
 import axios from 'axios';
 
@@ -23,7 +22,7 @@ export class PathForm extends React.Component {
                 console.log(response.data.data);
                 let validPath = true
                 for (var ob of response.data.data) {
-                    if (ob.attributes.structure_family != 'array'){
+                    if (ob.attributes.structure_family !== 'array'){
                         validPath = false
                         break;
                     }
